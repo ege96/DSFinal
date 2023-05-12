@@ -8,7 +8,33 @@ class Shape:
         self.pos = pos
         self.color = color
         self.rect = None
-
+        self.width = None
+        self.height = None
+        
+    def get_x(self):
+        return self.pos[0]
+    
+    def get_y(self):
+        return self.pos[1]
+    
+    def get_width(self):
+        return self.width
+    
+    def get_height(self):
+        return self.height
+    
+    def set_x(self, x):
+        self.pos = (x, self.pos[1])
+        
+    def set_y(self, y):
+        self.pos = (self.pos[0], y)
+        
+    def set_width(self, width):
+        self.width = width
+        
+    def set_height(self, height):
+        self.height = height
+        
     def draw(self, surface):
         raise NotImplementedError("Subclass must implement abstract method")
 
@@ -27,6 +53,8 @@ class Rectangle(Shape):
         self.width = width
         self.height = height
         self.update_rect()
+    
+        
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color,
@@ -40,9 +68,7 @@ class Rectangle(Shape):
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.clicked(event.pos):
-                print("Rectangle clicked!")
-
+            return self.clicked(event.pos)
 
 class Circle(Shape):
 
@@ -66,8 +92,7 @@ class Circle(Shape):
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.clicked(event.pos):
-                print("Circle clicked!")
+            return self.clicked(event.pos)
 
 
 def main():

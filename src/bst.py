@@ -1,6 +1,6 @@
 from typing import Union
 
-from node import Node
+from .node import Node
 
 
 class BSTNode(Node):

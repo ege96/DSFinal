@@ -2,7 +2,7 @@ import pygame
 import os
 
 from button import Button
-from shapes import Rectangle, Circle
+from src.shapes import Rectangle, Circle
 # from src import *
 
 pygame.init()

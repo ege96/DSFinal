@@ -1,6 +1,6 @@
 from typing import Union
 
-from LList import LList
+from .llist import LList
 
 class Queue(LList):
     def __init__(self):
