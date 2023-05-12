@@ -7,9 +7,9 @@ class Node:
     value: any
 
 class VNode(Node):
-    def __init__(self, data, shapeType: Shape, **kwargs):
+    def __init__(self, data, shape: Shape):
         super().__init__(data)
-        self.shape = shapeType(**kwargs)
+        self.shape = shape
                 
     def draw(self, surface):
         self.shape.draw(surface)

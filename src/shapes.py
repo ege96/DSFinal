@@ -54,8 +54,10 @@ class Rectangle(Shape):
         self.height = height
         self.update_rect()
     
-        
-
+    def change_color(self, color):
+        self.color = color
+        self.update_rect()
+    
     def draw(self, surface):
         pygame.draw.rect(surface, self.color,
                          pygame.Rect(self.pos, (self.width, self.height)))
@@ -79,6 +81,15 @@ class Circle(Shape):
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, self.pos, self.radius)
+        
+    def draw_outline(self, surface, color):
+        pygame.draw.circle(surface, color, self.pos, self.radius, 1)
+        
+    def draw_text(self, surface, text, font, color):
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.center = self.pos
+        surface.blit(text_surface, text_rect)
 
     def update_rect(self):
         self.rect = pygame.Rect(self.pos[0] - self.radius,
@@ -93,38 +104,11 @@ class Circle(Shape):
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             return self.clicked(event.pos)
-
-
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((640, 480))
-    pygame.display.set_caption("Shapes Demo")
-    clock = pygame.time.Clock()
-
-    # create some shapes
-    shapes = [
-        Rectangle((100, 100), (255, 0, 0), 50, 100),
-        Circle((300, 150), (0, 255, 0), 75),
-    ]
-
-    # main game loop
-    while True:
-        # handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                return
-            for shape in shapes:
-                shape.handle_event(event)
-
-        # draw shapes
-        screen.fill((255, 255, 255))
-        for shape in shapes:
-            shape.draw(screen)
-
-        pygame.display.flip()
-        clock.tick(60)
-
-
-if __name__ == "__main__":
-    main()
+        
+    def get_width(self):
+        return self.radius * 2
+    
+    def get_height(self):
+        return self.radius * 2
+    
+    

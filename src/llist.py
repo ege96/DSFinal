@@ -4,20 +4,34 @@ from .node import Node, VNode
 
 from .shapes import *
 
+import random
+import time
+
 
 class LLNode(Node):
     def __init__(self, data=None):
-        print(data)
         super().__init__(data)
         self.next = None
         
 class LLVNode(VNode, LLNode):
-    def __init__(self, data=None, shapeType: Shape = None):
-        super().__init__(data, shapeType)
-        self.shape = shapeType()
+    def __init__(self, data=None, shape: Shape = None):
+        super().__init__(data, shape)
+        self.shape = shape
+        
+    def get_x(self):
+        return self.shape.get_x()
+    
+    def get_y(self):
+        return self.shape.get_y()
+    
+    def get_width(self):    
+        return self.shape.get_width()
         
     def draw(self, surface):
         self.shape.draw(surface)
+        
+    def draw_text(self, surface, text, font, font_color):
+        self.shape.draw_text(surface, text, font, font_color)
         
     def update_shape(self):
         self.shape.update_rect()
@@ -128,19 +142,76 @@ class LList:
     
     
 class LListVisualizer(LList):
-    def __init__(self, screen_x:int, screen_y:int, nodeType=LLVNode):
+    def __init__(self, screen_x:int, screen_y:int, surface, nodeType=LLVNode):
         super().__init__(nodeType)
         self.screen_x = screen_x
         self.screen_y = screen_y
+        self.surface = surface
+        self.setup()
         
-    def add(self, val, shape: Shape):
-        super().add(val, shape)
         
-    def preadd(self, val, shape: Shape):
-        super().preadd(val, shape)
+    def add(self, val):
+        """Adds to the end of the LList
+
+        Args:
+            val (any): value to add
+
+        """
         
-    def remove(self, val):
-        super().remove(val)
+        node = self.nodeType(val, shape=Circle((0,0), (0, 255, 255), 10))
+        if not self.head:
+            node.move(0 + node.get_width(), self.screen_y//2)
+            self.head = node
+        else:
+            node.move(self.tail.shape.pos[0] + self.tail.shape.rect.width*2, self.tail.shape.pos[1])
+            self.tail.next = node
+            
+        self.tail = node
+
+    def preadd(self, val, **kwargs):
+        """Adds to the front of the LList
+
+        Args:
+            val (any): value to add
+
+        """
+        node = self.nodeType(val, **kwargs)
+        node.next = self.head
+        self.head = node
+        if not self.tail:
+            self.tail = node
+
+    def remove(self, val) -> Union[bool, any]:
+        """Removes the first instance of val from the LList
+
+        Args:
+            val (any): value to remove
+
+        Returns:
+            Union[bool, any]: False if val is not in LList, otherwise the value removed
+
+        """
+        if self.head is None:
+            return False
+
+        temp_node = self.head
+
+        if self.head.value == val:
+            self.head = self.head.next
+            return temp_node.value
+
+        node = self.head
+        while node.next:
+            # change color of node
+            temp_node = node.next
+            
+            if node.next.value == val:
+                node.next = node.next.next
+                return temp_node.value
+            
+            node = node.next
+            
+        return False
                 
     def update_shapes(self):
         node = self.head
@@ -151,11 +222,21 @@ class LListVisualizer(LList):
             x += node.shape.rect.width
             node = node.next            
     
-    def draw(self, surface):
+    def draw(self):
         node = self.head
         while node:
-            node.draw(surface)
+            print("Drawing node", node.value, "at", node.shape.pos)
+            
+            node.draw(self.surface)
+            node.draw_text(self.surface, str(node.value), self.font, self.font_color) 
+            # draw arrow
+            if node.next:
+                next_node = node.next
+                pygame.draw.line(self.surface, (0, 255, 255), (node.get_x() + node.get_width()//2, node.get_y()), (next_node.get_x() - next_node.get_width()//2, next_node.get_y()))
             node = node.next
+            pygame.display.update()
+            
+        
     
     def handle_event(self, event):
         node = self.head
@@ -165,6 +246,23 @@ class LListVisualizer(LList):
                 return True
             node = node.next
         return False
+    
+    def visualize(self, event):
+        # handle events
+        self.draw()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.add(random.randint(0, 100))
+            
+    def setup(self):
+        self.surface.fill((155, 196, 203))
+        self.font = pygame.font.SysFont("Arial", 10)
+        self.font_color = (0, 0, 0)
+        
+        
+        
+    
+        
+        
         
         
 if __name__ == "__main__":
