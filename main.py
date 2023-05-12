@@ -42,6 +42,7 @@ def vis_BST():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+        
 
         if setup[2].draw(win):
             print("EXIT")
@@ -93,11 +94,11 @@ def main():
         if exit_btn.draw(win):
             print("EXIT")
             pygame.quit()
-
+        
         for ds in ds_buttons:
             if ds_buttons[ds].draw(win):
                 # call to visaulization
-
+                
                 print(ds)
 
         pygame.display.update()
