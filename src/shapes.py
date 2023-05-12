@@ -57,10 +57,16 @@ class Rectangle(Shape):
     def change_color(self, color):
         self.color = color
         self.update_rect()
+        
+    def draw_text(self, surface, text, font, color):
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.center = (self.pos[0] + self.width // 2, self.pos[1] + self.height // 2)
+        surface.blit(text_surface, text_rect)
     
-    def draw(self, surface):
+    def draw(self, surface, width:int = 2):
         pygame.draw.rect(surface, self.color,
-                         pygame.Rect(self.pos, (self.width, self.height)))
+                         self.rect, width)
 
     def update_rect(self):
         self.rect = pygame.Rect(self.pos, (self.width, self.height))
