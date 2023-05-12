@@ -1,21 +1,19 @@
 from typing import Union
+import pygame
 
-from .node import Node, VNode
+from .node import Node
 
-from .shapes import *
+from .COLORS import BLUE, BROWN, BLACK
+
+from .shapes import Shape
 
 
 class LLNode(Node):
-    def __init__(self, data=None):
-        print(data)
+    def __init__(self, data=None, shape: Shape=None):
         super().__init__(data)
         self.next = None
-        
-class LLVNode(VNode, LLNode):
-    def __init__(self, data=None, shapeType: Shape = None):
-        super().__init__(data, shapeType)
-        self.shape = shapeType()
-        
+        self.shape = shape
+
     def draw(self, surface):
         self.shape.draw(surface)
         
@@ -36,26 +34,50 @@ class LLVNode(VNode, LLNode):
         self.update_shape()        
 
 class LList:
-    
-    def __init__(self, nodeType=LLNode):
+    def __init__(self, surface, font, nodeType=LLNode):
         self.head = None
         self.tail = None
         self.nodeType = nodeType
+        self.node_count = 0    
+        self.surface = surface
+        self.font = font
 
-    def add(self, val, **kwargs):
+    def add(self, val):
         """Adds to the end of the LList
 
         Args:
             val (any): value to add
 
         """
-        node = self.nodeType(val, **kwargs)
+        node = self.nodeType(val)
         if not self.head:
             self.head = node
         else:
             self.tail.next = node
         self.tail = node
+        
+        self.node_count += 1
 
+    def insert_node(self, value, pos):
+        """Insert a node with the given value at the specified position in the linked list"""
+        if pos < 1 or pos > self.node_count + 1:
+            print("Invalid position")
+            return
+
+        new_node = Node(value)
+
+        if pos == 1:
+            new_node.next = self.head
+            self.head = new_node
+        else:
+            current_node = self.head
+            for i in range(1, pos-1):
+                current_node = current_node.next
+            new_node.next = current_node.next
+            current_node.next = new_node
+
+        self.node_count += 1
+    
     def preadd(self, val, **kwargs):
         """Adds to the front of the LList
 
@@ -116,6 +138,27 @@ class LList:
         """Returns True if LList is empty, False otherwise"""
         return self.head is None
 
+    def display(self):
+        current = self.head
+        x = 100
+        y = 250
+
+        while current:
+            current.position = (x, y)
+            pygame.draw.circle(self.surface, BROWN, [x, y], 30)
+            text = self.font.render(str(current.value), True, BLUE)
+            text_rect = text.get_rect(center=(x, y))
+            self.surface.blit(text, text_rect)
+            pygame.draw.circle(self.surface, BLACK, [x, y], 30, 2)
+
+            # Draw an arrow from the current node to the next node (if there is one)
+            if current.next:
+                pygame.draw.line(self.surface, BLACK, [x + 30, y], [x + 50, y], 2)
+                pygame.draw.polygon(self.surface, BLACK, [(x + 50, y - 5), (x + 50, y + 5), (x + 60, y)], 0)
+
+            x += 80
+            current = current.next 
+            
     def __str__(self) -> str:
         node = self.head
         output = []
@@ -125,47 +168,11 @@ class LList:
 
         output.append("None")
         return "->".join(output)
+
+    def 
+
     
     
-class LListVisualizer(LList):
-    def __init__(self, screen_x:int, screen_y:int, nodeType=LLVNode):
-        super().__init__(nodeType)
-        self.screen_x = screen_x
-        self.screen_y = screen_y
-        
-    def add(self, val, shape: Shape):
-        super().add(val, shape)
-        
-    def preadd(self, val, shape: Shape):
-        super().preadd(val, shape)
-        
-    def remove(self, val):
-        super().remove(val)
-                
-    def update_shapes(self):
-        node = self.head
-        x = self.screen_x
-        y = self.screen_y
-        while node:
-            node.move(x, y)
-            x += node.shape.rect.width
-            node = node.next            
-    
-    def draw(self, surface):
-        node = self.head
-        while node:
-            node.draw(surface)
-            node = node.next
-    
-    def handle_event(self, event):
-        node = self.head
-        while node:
-            if node.handle_event(event):
-                # do something later
-                return True
-            node = node.next
-        return False
-        
         
 if __name__ == "__main__":
     # make LList

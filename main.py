@@ -3,14 +3,14 @@ import os
 
 from button import Button
 from src.shapes import Rectangle, Circle
-# from src import *
+from src import *
 
 pygame.init()
 pygame.font.init()
 
 #Colors
-BROWN = (95, 99, 79)
-BLUE = (155, 196, 203)
+from src.COLORS import BLUE, BROWN, BLACK
+
 
 disp = pygame.display.Info()
 SIZE = (disp.current_w, disp.current_h)
@@ -18,38 +18,68 @@ print(SIZE)
 CENT_X = SIZE[0] // 2
 CENT_Y = SIZE[1] // 2
 
-def set_up(): 
-    pygame.display.set_caption("Linked List Visualizer")
-    
-    font = pygame.font.SysFont("opensans", 100)
-    text = font.render('Linked List Visualizer!', True, BROWN)
-    textRect = text.get_rect()
-    textRect.center = (CENT_X, 100)
+def LList_vis(surface, font):
+    last_add_time = pygame.time.get_ticks()
+    # Create a LList object
+    linked_list = LList(surface, font)
 
-    exit_img = pygame.image.load("button_exit.png").convert_alpha()
-    exit_btn = Button(1, 1, exit_img, 2)
-    exit_btn.set_center(CENT_X, 700)
-    return (text, textRect, exit_btn)
-
-def vis_BST():
-    win = pygame.display.set_mode(SIZE)
-    setup = set_up()
     run = True
-    while run: 
-        win.fill(BLUE)
-        win.blit(setup[0], setup[1])
-        
+
+    # Main loop
+    while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        
 
-        if setup[2].draw(win):
-            print("EXIT")
-            pygame.quit()
+            # Check if the user clicked the left mouse button
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                pos = pygame.mouse.get_pos()
+                # Check if the user clicked on a node
+                linked_list.remove(pos)
 
-    
-    
+                # Check if the user clicked on the "Add Node" button
+                if 10 <= pos[0] <= 120 and 10 <= pos[1] <= 50:
+                    linked_list.add(linked_list.node_count + 1)
+
+                # Check if the user clicked on the "Insert Node" button
+                elif 125 <= pos[0] <= 255 and 10 <= pos[1] <= 50:
+                    pos = input("Enter the position to insert: ")
+                    linked_list.insert_node(linked_list.node_count + 1, int(pos))
+
+                # Check if the user clicked on the "Exit" button
+                elif 260 <= pos[0] <= 330 and 10 <= pos[1] <= 50:
+                    run = False
+
+        # Clear the surface
+        surface.fill(BLUE)
+
+        # Display the linked list
+        linked_list.display()
+
+        # Draw the "Add Node" button
+        button_rect = pygame.Rect(10, 10, 110, 40)
+        pygame.draw.rect(surface, BLACK, button_rect, 2)
+        text = font.render("Add Node", True, BLACK)
+        text_rect = text.get_rect(center=button_rect.center)
+        surface.blit(text, text_rect)
+
+        # Draw the "Insert Node" button
+        button_rect = pygame.Rect(125, 10, 130, 40)
+        pygame.draw.rect(surface, BLACK, button_rect, 2)
+        text = font.render("Insert Node", True, BLACK)
+        text_rect = text.get_rect(center=button_rect.center)
+        surface.blit(text, text_rect)
+
+        # Draw the "Exit" button
+        button_rect = pygame.Rect(260, 10, 70, 40)
+        pygame.draw.rect(surface, BLACK, button_rect, 2)
+        text = font.render("Exit", True, BLACK)
+        text_rect = text.get_rect(center=button_rect.center)
+        surface.blit(text, text_rect)
+
+        # Update the surface
+        pygame.display.flip()
+
 def main():
     run = True
     win = pygame.display.set_mode(SIZE)
@@ -98,6 +128,11 @@ def main():
         for ds in ds_buttons:
             if ds_buttons[ds].draw(win):
                 # call to visaulization
+                vis_font = pygame.font.SysFont("Calibri", 25, True, False)
+                match ds:
+                    case "linked-list":
+                        LList_vis(win, vis_font)
+                    
                 
                 print(ds)
 

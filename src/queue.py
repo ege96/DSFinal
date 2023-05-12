@@ -41,8 +41,6 @@ class Queue(LList):
     def is_empty(self) -> bool:
         """Returns True if Queue is empty, False otherwise"""
         return super().is_empty()
-        
-    
     
     
 if __name__ == "__main__":
