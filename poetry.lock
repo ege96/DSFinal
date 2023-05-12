@@ -1,4 +1,12 @@
 [[package]]
+name = "ansicolors"
+version = "1.1.8"
+description = "ANSI colors for Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "dearpygui"
 version = "1.6.2"
 description = "DearPyGui: A simple Python GUI Toolkit"
@@ -13,6 +21,14 @@ description = "An implementation of the Debug Adapter Protocol for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "docstring-to-markdown"
+version = "0.12"
+description = "On the fly conversion of Python docstrings to markdown"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
 
 [[package]]
 name = "jedi"
@@ -61,16 +77,16 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-testing = ["pytest-benchmark", "pytest"]
-dev = ["tox", "pre-commit"]
+dev = ["pre-commit", "tox"]
+testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pyflakes"
-version = "2.4.0"
+version = "3.0.1"
 description = "passive checker of Python programs"
 category = "dev"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+python-versions = ">=3.6"
 
 [[package]]
 name = "pygame"
@@ -103,39 +119,41 @@ python-versions = "*"
 ujson = ">=3.0.0"
 
 [package.extras]
-test = ["coverage", "pytest-cov", "pytest", "pyflakes", "pycodestyle", "pylint"]
+test = ["pylint", "pycodestyle", "pyflakes", "pytest", "pytest-cov", "coverage"]
 
 [[package]]
 name = "python-lsp-server"
-version = "1.5.0"
+version = "1.7.2"
 description = "Python Language Server for the Language Server Protocol"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
+docstring-to-markdown = "*"
 jedi = ">=0.17.2,<0.19.0"
 pluggy = ">=1.0.0"
-pyflakes = {version = ">=2.4.0,<2.5.0", optional = true, markers = "extra == \"pyflakes\""}
+pyflakes = {version = ">=2.5.0,<3.1.0", optional = true, markers = "extra == \"pyflakes\""}
 python-lsp-jsonrpc = ">=1.0.0"
-rope = {version = ">0.10.5", optional = true, markers = "extra == \"rope\""}
+rope = {version = ">1.2.0", optional = true, markers = "extra == \"rope\""}
+toml = {version = "*", optional = true, markers = "extra == \"yapf\""}
 ujson = ">=3.0.0"
 whatthepatch = {version = ">=1.0.2,<2.0.0", optional = true, markers = "extra == \"yapf\""}
-yapf = {version = "*", optional = true, markers = "extra == \"yapf\""}
+yapf = {version = "<=0.32.0", optional = true, markers = "extra == \"yapf\""}
 
 [package.extras]
-yapf = ["whatthepatch (>=1.0.2,<2.0.0)", "yapf"]
+all = ["autopep8 (>=1.6.0,<2.1.0)", "flake8 (>=5.0.0,<7)", "mccabe (>=0.7.0,<0.8.0)", "pycodestyle (>=2.9.0,<2.11.0)", "pydocstyle (>=6.3.0,<6.4.0)", "pyflakes (>=2.5.0,<3.1.0)", "pylint (>=2.5.0,<3)", "rope (>1.2.0)", "yapf (<=0.32.0)", "toml", "whatthepatch (>=1.0.2,<2.0.0)"]
+autopep8 = ["autopep8 (>=1.6.0,<2.1.0)"]
+flake8 = ["flake8 (>=5.0.0,<7)"]
+mccabe = ["mccabe (>=0.7.0,<0.8.0)"]
+pycodestyle = ["pycodestyle (>=2.9.0,<2.11.0)"]
+pydocstyle = ["pydocstyle (>=6.3.0,<6.4.0)"]
+pyflakes = ["pyflakes (>=2.5.0,<3.1.0)"]
+pylint = ["pylint (>=2.5.0,<3)"]
+rope = ["rope (>1.2.0)"]
+test = ["pylint (>=2.5.0,<3)", "pytest", "pytest-cov", "coverage", "numpy", "pandas", "matplotlib", "pyqt5", "flaky"]
 websockets = ["websockets (>=10.3)"]
-test = ["flaky", "pyqt5", "matplotlib", "pandas", "numpy (<1.23)", "coverage", "pytest-cov", "pytest", "pylint (>=2.5.0)"]
-rope = ["rope (>0.10.5)"]
-pylint = ["pylint (>=2.5.0)"]
-pyflakes = ["pyflakes (>=2.4.0,<2.5.0)"]
-pydocstyle = ["pydocstyle (>=2.0.0)"]
-pycodestyle = ["pycodestyle (>=2.8.0,<2.9.0)"]
-mccabe = ["mccabe (>=0.6.0,<0.7.0)"]
-flake8 = ["flake8 (>=4.0.0,<4.1.0)"]
-autopep8 = ["autopep8 (>=1.6.0,<1.7.0)"]
-all = ["whatthepatch", "yapf", "rope (>=0.10.5)", "pylint (>=2.5.0)", "pyflakes (>=2.4.0,<2.5.0)", "pydocstyle (>=2.0.0)", "pycodestyle (>=2.8.0,<2.9.0)", "mccabe (>=0.6.0,<0.7.0)", "flake8 (>=4.0.0,<4.1.0)", "autopep8 (>=1.6.0,<1.7.0)"]
+yapf = ["yapf (<=0.32.0)", "whatthepatch (>=1.0.2,<2.0.0)", "toml"]
 
 [[package]]
 name = "pytoolconfig"
@@ -150,10 +168,10 @@ packaging = ">=21.3"
 tomli = {version = ">=2.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
-validation = ["pydantic (>=1.7.4)"]
+doc = ["tabulate (>=0.8.9)", "sphinx (>=4.5.0)"]
+gen_docs = ["sphinx (>=4.5.0)", "sphinx-autodoc-typehints (>=1.18.1)", "sphinx-rtd-theme (>=1.0.0)", "pytoolconfig"]
 global = ["appdirs (>=1.4.4)"]
-gen_docs = ["pytoolconfig", "sphinx-rtd-theme (>=1.0.0)", "sphinx-autodoc-typehints (>=1.18.1)", "sphinx (>=4.5.0)"]
-doc = ["sphinx (>=4.5.0)", "tabulate (>=0.8.9)"]
+validation = ["pydantic (>=1.7.4)"]
 
 [[package]]
 name = "rope"
@@ -167,8 +185,8 @@ python-versions = ">=3.7"
 pytoolconfig = ">=1.1.2"
 
 [package.extras]
-doc = ["sphinx-rtd-theme (>=1.0.0)", "sphinx-autodoc-typehints (>=1.18.1)", "sphinx (>=4.5.0)", "pytoolconfig"]
-dev = ["build (>=0.7.0)", "pytest-timeout (>=2.1.0)", "pytest (>=7.0.1)"]
+dev = ["pytest (>=7.0.1)", "pytest-timeout (>=2.1.0)", "build (>=0.7.0)"]
+doc = ["pytoolconfig", "sphinx (>=4.5.0)", "sphinx-autodoc-typehints (>=1.18.1)", "sphinx-rtd-theme (>=1.0.0)"]
 
 [[package]]
 name = "toml"
@@ -213,11 +231,13 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8.0,<3.9"
-content-hash = "2fb33e1c4e850ad0ad216ad7afe80fa98996ccbddf0d0d9e7b664f81738a77d4"
+content-hash = "46c0b3d4440d16f4b10b64a2380e1f1b24f13230db8503e40df71d479be0a47d"
 
 [metadata.files]
+ansicolors = []
 dearpygui = []
 debugpy = []
+docstring-to-markdown = []
 jedi = []
 packaging = []
 parso = []
