@@ -79,6 +79,9 @@ def main():
                     case "graph": 
                         vis = Graph(win, vis_font)
                         vis._visualize()
+                    case "stack": 
+                        vis = Stack(20, win, vis_font)
+                        vis.visualize()
 
         pygame.display.update()
 
