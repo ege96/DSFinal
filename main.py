@@ -14,8 +14,6 @@ pygame.font.init()
 
 disp = pygame.display.Info()
 SIZE = (disp.current_w, disp.current_h)
-SIZE = (800, 600)
-print(SIZE)
 CENT_X = SIZE[0] // 2
 CENT_Y = SIZE[1] // 2
 
