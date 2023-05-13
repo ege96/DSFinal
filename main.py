@@ -80,7 +80,10 @@ def main():
                         vis = Graph(win, vis_font)
                         vis._visualize()
                     case "stack": 
-                        vis = Stack(20, win, vis_font)
+                        vis = Stack(win, vis_font)
+                        vis.visualize()
+                    case "queue":
+                        vis = Queue(win, vis_font)
                         vis.visualize()
 
         pygame.display.update()

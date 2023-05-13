@@ -48,7 +48,6 @@ class LList:
         self.node_count = 0    
         self.surface = surface
         self.font = font
-        self.setup()
 
     def add(self, val):
         """Adds to the end of the LList
@@ -108,6 +107,36 @@ class LList:
             self.tail = node
             
         self.node_count += 1
+        
+    def remove_tail(self) -> Union[bool, any]:
+        """Removes the tail of the LList
+    
+        Returns:
+            Union[bool, any]: False if LList is empty, otherwise the value removed
+    
+        """
+        if self.head is None:
+            return False
+        
+        self.node_count -= 1
+        
+        if self.head == self.tail:
+            temp_value = self.head.value
+            self.head = None
+            self.tail = None
+            return temp_value
+        
+        node = self.head
+        while node.next.next:
+            node = node.next
+        
+        temp_value = node.next.value
+        node.next = None
+        self.tail = node
+        
+        return temp_value
+                
+    
 
     def remove(self, val) -> Union[bool, any]:
         """Removes the first instance of val from the LList
@@ -142,28 +171,39 @@ class LList:
             
         return False
     
-    def remove_at(self, pos):
-        """Removes the node at the specified position in the linked list"""
+    def remove_at(self, pos) -> Union[bool, any]:
+        """Removes the node at the specified position in the linked list
+        
+        Args:
+            pos (int): position of the node to remove
+            
+        Returns:
+            Union[bool, any]: False if LList is empty or pos is invalid, otherwise the value removed"""
         if self.head is None:
             return False
         
         if pos < 1 or pos > self.node_count + 1:
-            print("Invalid position")
-            return
-
-        self.node_count -= 1
+            return False
         
         if pos == 1:
+            temp_value = self.head.value
             self.head = self.head.next
-            return
+            return temp_value
         
         current_node = self.head
+        
         for i in range(1, pos-1):
             current_node = current_node.next
+            
+        temp_value = current_node.next.value
         current_node.next = current_node.next.next
         
         if current_node.next is None:
             self.tail = current_node
+            
+        self.node_count -= 1
+            
+        return temp_value
         
 
     def peek(self):
@@ -220,6 +260,7 @@ class LList:
                         return "exit"
         
     def visualize(self):
+        self.setup()
         while True:
             for event in pygame.event.get():
                 if self._visualize(event) == "exit":
