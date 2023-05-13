@@ -134,9 +134,11 @@ class LList:
             
             if node.next.value == val:
                 node.next = node.next.next
+                self.node_count -= 1
                 return temp_node.value
             
             node = node.next
+
             
         return False
     
@@ -145,9 +147,11 @@ class LList:
         if self.head is None:
             return False
         
-        if pos < 1 or pos > self.node_count:
+        if pos < 1 or pos > self.node_count + 1:
             print("Invalid position")
             return
+
+        self.node_count -= 1
         
         if pos == 1:
             self.head = self.head.next
@@ -161,7 +165,6 @@ class LList:
         if current_node.next is None:
             self.tail = current_node
         
-        self.node_count -= 1
 
     def peek(self):
         """Returns the first value in the LList
@@ -210,22 +213,17 @@ class LList:
             if btn_obj.handle_event(event):
                 match btn:
                     case "add":
-                        self.add(self.node_count)
+                        self.add(self.node_count + 1)
                     case "insert":
-                        self.insert_node(self.node_count, random.randint(1, self.node_count + 1))
+                        self.insert_node(self.node_count + 1, random.randint(1, self.node_count + 1))
                     case "exit":
                         return "exit"
-            
-        
         
     def visualize(self):
         while True:
             for event in pygame.event.get():
                 if self._visualize(event) == "exit":
                     return
-                
-                
-                
         
     def _visualize(self, event):
         self.surface.fill(BLUE)
@@ -233,7 +231,6 @@ class LList:
         if self._buttonMenu(event) == "exit":
             return "exit"
         
-
         curr = self.head
         
         x = 100
@@ -273,25 +270,5 @@ class LList:
             x += 80
             pos += 1
             
-            
-            
         pygame.display.update()
-    
-    
-        
-if __name__ == "__main__":
-    # make LList
-    list = LList()
 
-    list.add(1)
-    list.add(2)
-    list.preadd(3)
-
-    print(list)
-
-    list.remove(3)
-    print(list)
-    list.remove(2)
-    print(list)
-    list.remove(1)
-    print(list)

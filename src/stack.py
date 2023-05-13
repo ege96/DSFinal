@@ -38,6 +38,8 @@ class Stack(LList):
     def is_empty(self) -> bool:
         """Returns True if Stack is empty, False otherwise"""
         return super().is_empty()
+
+    
     
     
 if __name__ == "__main__":

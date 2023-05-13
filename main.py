@@ -71,12 +71,14 @@ def main():
             if ds_buttons[ds].draw(win):
                 # call to visaulization
                 vis_font = pygame.font.SysFont("Calibri", 25, True, False)
+                print(ds)
                 match ds:
                     case "linked-list":
                         vis = LList(win, vis_font)
                         vis.visualize()
-                        
-                print(ds)
+                    case "graph": 
+                        vis = Graph(win, vis_font)
+                        vis._visualize()
 
         pygame.display.update()
 
