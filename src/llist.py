@@ -139,6 +139,29 @@ class LList:
             node = node.next
             
         return False
+    
+    def remove_at(self, pos):
+        """Removes the node at the specified position in the linked list"""
+        if self.head is None:
+            return False
+        
+        if pos < 1 or pos > self.node_count:
+            print("Invalid position")
+            return
+        
+        if pos == 1:
+            self.head = self.head.next
+            return
+        
+        current_node = self.head
+        for i in range(1, pos-1):
+            current_node = current_node.next
+        current_node.next = current_node.next.next
+        
+        if current_node.next is None:
+            self.tail = current_node
+        
+        self.node_count -= 1
 
     def peek(self):
         """Returns the first value in the LList
@@ -217,6 +240,7 @@ class LList:
         y = 250
         
         prevNode = None
+        pos = 1
         
         while curr is not None:
             curr.shape = Circle((x, y), BROWN, 30)
@@ -225,6 +249,9 @@ class LList:
             curr.draw_text(self.surface, str(curr.value), self.font, BLUE)
             curr.draw_outline(self.surface, BLACK)
             
+            if curr.shape.handle_event(event):
+                self.remove_at(pos)
+                
             if prevNode is not None:
                 # draw line
                 n1 = prevNode
@@ -245,6 +272,7 @@ class LList:
             prevNode = curr
             curr = curr.next
             x += 80
+            pos += 1
             
             
             
