@@ -3,7 +3,7 @@ import random
 import time
 import math
 
-# from .node import Node
+from .node import Node
 
 from .COLORS import BLUE, BROWN, BLACK
 

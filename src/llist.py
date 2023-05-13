@@ -184,6 +184,8 @@ class LList:
         
         if pos < 1 or pos > self.node_count + 1:
             return False
+
+        self.node_count -= 1
         
         if pos == 1:
             temp_value = self.head.value
@@ -201,7 +203,6 @@ class LList:
         if current_node.next is None:
             self.tail = current_node
             
-        self.node_count -= 1
             
         return temp_value
         
