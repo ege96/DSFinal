@@ -5,11 +5,11 @@ from button import Button
 from src.shapes import Rectangle, Circle
 from src import *
 
-pygame.init()
-pygame.font.init()
-
 #Colors
 from src.COLORS import BLUE, BROWN, BLACK
+
+pygame.init()
+pygame.font.init()
 
 
 disp = pygame.display.Info()
