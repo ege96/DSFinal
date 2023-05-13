@@ -187,9 +187,9 @@ class LList:
             if btn_obj.handle_event(event):
                 match btn:
                     case "add":
-                        self.add(random.randint(1, 100))
+                        self.add(self.node_count)
                     case "insert":
-                        self.insert_node(random.randint(1, 100), random.randint(1, self.node_count + 1))
+                        self.insert_node(self.node_count, random.randint(1, self.node_count + 1))
                     case "exit":
                         return "exit"
             
