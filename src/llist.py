@@ -267,7 +267,6 @@ class LList:
                 
                 pygame.draw.line(self.surface, BLACK, (x1, y1), (x2, y2), 2)
                 
-                # draw arrow
                 
             prevNode = curr
             curr = curr.next
