@@ -73,16 +73,14 @@ def main():
                 match ds:
                     case "linked-list":
                         vis = LList(win, vis_font)
-                        vis.visualize()
                     case "graph": 
                         vis = Graph(win, vis_font)
-                        vis._visualize()
                     case "stack": 
                         vis = Stack(win, vis_font)
-                        vis.visualize()
                     case "queue":
                         vis = Queue(win, vis_font)
-                        vis.visualize()
+                
+                vis.visualize()
 
         pygame.display.update()
 

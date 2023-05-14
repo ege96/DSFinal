@@ -38,7 +38,9 @@ class LLNode(Node):
     def move(self, x, y):
         self.shape.set_x(x)
         self.shape.set_y(y)
-        self.update_shape()        
+        self.update_shape()   
+        
+         
 
 class LList:
     def __init__(self, surface, font, nodeType=LLNode):
