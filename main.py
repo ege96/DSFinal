@@ -22,7 +22,7 @@ def main():
     win = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Data Structure Visualizer")
 
-    font = pygame.font.SysFont("opensans", 200)
+    font = pygame.font.SysFont("opensans", 210)
     text = font.render('Data Structure Visualizer!', True, BROWN)
     textRect = text.get_rect()
     textRect.center = (CENT_X, 150)
