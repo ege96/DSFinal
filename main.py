@@ -22,7 +22,7 @@ def main():
     win = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Data Structure Visualizer")
 
-    font = pygame.font.SysFont("opensans", 210)
+    font = pygame.font.SysFont("opensans", 150)
     text = font.render('Data Structure Visualizer!', True, BROWN)
     textRect = text.get_rect()
     textRect.center = (CENT_X, 150)
@@ -43,13 +43,13 @@ def main():
 
         i_img = pygame.image.load(os.path.join("Images",
                                                file_name)).convert_alpha()
-        i_button = Button(350, 210, i_img, 1)
-        i_button.set_center(x_coord, 375 + (250 * idx))
+        i_button = Button(350, 210, i_img, 0.75)
+        i_button.set_center(x_coord, 350 + (200 * idx))
         ds_buttons[name] = i_button
 
-        exit_img = pygame.image.load("button_exit.png").convert_alpha()
-        exit_btn = Button(1, 1, exit_img, 1)
-        exit_btn.set_center(CENT_X, 900)
+    exit_img = pygame.image.load("button_exit.png").convert_alpha()
+    exit_btn = Button(1, 1, exit_img, 0.75)
+    exit_btn.set_center(CENT_X, 750)
 
     while run:
         win.fill(BLUE)

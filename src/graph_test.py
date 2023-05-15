@@ -35,7 +35,7 @@ class GraphTest:
 
     def add_edge(self, node1: GraphNode, node2: GraphNode, weight: int = 0):
         if node1 not in self.nodes or node2 not in self.nodes:
-            raise ValueError("Node does not exist")
+            return
 
         if node1 in self.nodes[node2]:
             return

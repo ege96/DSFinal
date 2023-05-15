@@ -21,6 +21,7 @@ class LList:
         self.tail = None
         self.nodeType = nodeType
         self.node_count = 0
+        self.total_nodes = 0
         self.surface = surface
         self.font = font
 
@@ -39,6 +40,7 @@ class LList:
         self.tail = node
 
         self.node_count += 1
+        self.total_nodes += 1
 
     def insert_node(self, value, pos):
         """Insert a node with the given value at the specified position in the linked list"""
@@ -66,6 +68,7 @@ class LList:
                 self.tail = new_node
 
         self.node_count += 1
+        self.total_nodes += 1
 
     def preadd(self, val, **kwargs):
         """Adds to the front of the LList
@@ -81,6 +84,7 @@ class LList:
             self.tail = node
 
         self.node_count += 1
+        self.total_nodes += 1
 
     def remove_tail(self) -> Union[bool, any]:
         """Removes the tail of the LList
@@ -93,6 +97,7 @@ class LList:
             return False
 
         self.node_count -= 1
+
 
         if self.head == self.tail:
             temp_value = self.head.value
@@ -223,9 +228,9 @@ class LList:
             if btn_obj.handle_event(event):
                 match btn:
                     case "add":
-                        self.add(self.node_count + 1)
+                        self.add(self.total_nodes + 1)
                     case "insert":
-                        self.insert_node(self.node_count + 1, random.randint(1, self.node_count + 1))
+                        self.insert_node(self.total_nodes + 1, random.randint(1, self.node_count + 1))
                     case "exit":
                         return "exit"
 
@@ -260,6 +265,8 @@ class LList:
             if curr.shape.handle_event(event):
                 if event.button == 1:
                     self.remove_at(pos)
+                    if self.node_count == 0:
+                        self.total_nodes = 0
                 elif event.button == 3:
                     self.insert_node(self.node_count + 1, pos)
 
