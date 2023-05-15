@@ -61,11 +61,11 @@ def main():
 
         if exit_btn.draw(win):
             print("EXIT")
-            pygame.quit()
+            return
 
         for ds in ds_buttons:
             if ds_buttons[ds].draw(win):
-                # call to visaulization
+                # call to visualization
                 vis_font = pygame.font.SysFont("Calibri", 25, True, False)
                 print(ds)
                 match ds:

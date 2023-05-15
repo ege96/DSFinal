@@ -258,7 +258,10 @@ class LList:
             curr.draw_outline(self.surface, BLACK)
 
             if curr.shape.handle_event(event):
-                self.remove_at(pos)
+                if event.button == 1:
+                    self.remove_at(pos)
+                elif event.button == 3:
+                    self.insert_node(self.node_count + 1, pos)
 
             if prevNode is not None:
                 # draw line

@@ -85,10 +85,6 @@ class GraphTest:
 
         del self.nodes[node]
 
-    def iter_nodes(self):
-        for node in self.nodes:
-            yield node
-
     def setup(self):
         self.djikstra_btn = Rectangle((10, 10), BLACK, 150, 40)
         self.djikstra_btn.draw_text(self.surface, "Dijkstra", self.font, BLACK)
@@ -125,23 +121,26 @@ class GraphTest:
             node.shape.draw(self.surface)
             node.shape.draw_text(self.surface, node.value, self.font, BLACK)
 
-
     def open_input_menu(self):
         # when user clicks dijkstra button
         # ask from which node to start and end
         # then call dijkstra function
-        done = False
-        while done is not True:
-            # draw input menu
+        rect1 = Rectangle((10, 10), BLACK, 150, 40)
+        rect2 = Rectangle((170, 10), BLACK, 150, 40)
+        rect3 = Rectangle((330, 10), BLACK, 70, 40)
+
+        while True:
+            for event in pygame.event.get():
+                pass
             self.surface.fill(BLUE)
-            rect = Rectangle((10, 10), BLACK, 150, 40)
-            rect.draw_text(self.surface, "Start Node", self.font, BLACK)
+            rect1.draw(self.surface, width=2)
+            rect2.draw(self.surface, width=2)
+            rect3.draw(self.surface, width=2)
+            rect1.draw_text(self.surface, "Start Node", self.font, BLACK)
+            rect2.draw_text(self.surface, "End Node", self.font, BLACK)
+            rect3.draw_text(self.surface, "Done", self.font, BLACK)
 
-            rect = Rectangle((170, 10), BLACK, 150, 40)
-            rect.draw_text(self.surface, "End Node", self.font, BLACK)
-
-            rect = Rectangle((330, 10), BLACK, 70, 40)
-            rect.draw_text(self.surface, "Done", self.font, BLACK)
+            pygame.display.update()
 
 
 
@@ -198,9 +197,6 @@ class GraphTest:
 
         if node is not None:
             if button_clicked == "left":
-                for i in self.iter_nodes():
-                    print(i)
-                    print(self.nodes[i])
                 self.remove_node(node)
 
             elif button_clicked == "right":
@@ -218,5 +214,4 @@ class GraphTest:
                 self.add_node(node)
 
         self.draw_nodes_edges()
-
         pygame.display.update()
