@@ -9,6 +9,7 @@ python = ">=3.8.0,<3.12"
 pygame = "^2.1.2"
 dearpygui = "^1.6.2"
 ansicolors = "^1.1.8"
+coverage = "^7.2.5"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"

@@ -1,11 +1,10 @@
 from typing import Union
-import pygame
-import random
 
-from .llist import LList, LLNode
-from .node import Node
+import pygame
+
 from .COLORS import BLUE, BROWN, BLACK
-from .shapes import Shape, Rectangle
+from .llist import LList, LLNode
+from .shapes import Rectangle
 
 
 class Queue(LList):
@@ -15,7 +14,7 @@ class Queue(LList):
         self.rect_height = 40
         self.rect_spacing = 5
         surface_x, surface_y = surface.get_size()
-        self.queue_pos = (surface_x//2 - self.rect_width//2, surface_y - self.rect_height*2)
+        self.queue_pos = (surface_x // 2 - self.rect_width // 2, surface_y - self.rect_height * 2)
         self.button_pos = (10, 10)
         self.button_height = 40
         self.button_width = 150
@@ -47,15 +46,15 @@ class Queue(LList):
 
         """
         return self.peek()
-    
+
     def setup(self):
         start_x, start_y = self.button_pos
-        
+
         self.add_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
         self.add_btn.draw_text(self.surface, "Enqueue", self.font, BLACK)
-        
+
         start_x += self.button_width + self.button_spacing
-        
+
         self.insert_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
         self.insert_btn.draw_text(self.surface, "Dequeue", self.font, BLACK)
 
@@ -63,9 +62,8 @@ class Queue(LList):
 
         self.exit_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
         self.exit_btn.draw_text(self.surface, "Exit", self.font, BLACK)
-        
+
         self.btns = {"enqueue": self.add_btn, "dequeue": self.insert_btn, "exit": self.exit_btn}
-        
 
     def visualize(self):
         self.setup()

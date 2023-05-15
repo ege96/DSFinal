@@ -1,9 +1,10 @@
 from typing import Union
+
 import pygame
 
-from .llist import LList, LLNode
 from .COLORS import BLUE, BROWN, BLACK
-from .shapes import Shape, Rectangle
+from .llist import LList, LLNode
+from .shapes import Rectangle
 
 
 class Stack(LList):
@@ -13,7 +14,7 @@ class Stack(LList):
         self.rect_height = 40
         self.rect_spacing = 5
         surface_x, surface_y = surface.get_size()
-        self.stack_pos = (surface_x//2 - self.rect_width//2, surface_y - self.rect_height*2)
+        self.stack_pos = (surface_x // 2 - self.rect_width // 2, surface_y - self.rect_height * 2)
         self.button_pos = (10, 10)
         self.button_height = 40
         self.button_width = 150
@@ -47,15 +48,15 @@ class Stack(LList):
         if self.tail is None:
             return False
         return self.tail.value
-    
+
     def setup(self):
         start_x, start_y = self.button_pos
-        
+
         self.add_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
         self.add_btn.draw_text(self.surface, "Push", self.font, BLACK)
-        
+
         start_x += self.button_width + self.button_spacing
-        
+
         self.insert_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
         self.insert_btn.draw_text(self.surface, "Pop", self.font, BLACK)
 
@@ -63,9 +64,8 @@ class Stack(LList):
 
         self.exit_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
         self.exit_btn.draw_text(self.surface, "Exit", self.font, BLACK)
-        
+
         self.btns = {"push": self.add_btn, "pop": self.insert_btn, "exit": self.exit_btn}
-        
 
     def visualize(self):
         self.setup()
@@ -73,7 +73,7 @@ class Stack(LList):
             for event in pygame.event.get():
                 if self._visualize(event) == "exit":
                     return
-                
+
     def _buttonMenu(self, event):
         for btn in self.btns:
             btn_obj = self.btns[btn]

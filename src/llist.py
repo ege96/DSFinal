@@ -10,7 +10,7 @@ from .shapes import Shape, Rectangle, Circle
 
 
 class LLNode(Node):
-    def __init__(self, data=None, shape: Shape=None):
+    def __init__(self, data=None, shape: Rectangle | Circle = None):
         super().__init__(data)
         self.next = None
         self.shape = shape

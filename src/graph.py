@@ -74,7 +74,7 @@ class Graph:
         for node in self.nodes:
             node.draw(self.surface, self.font)
 
-    def _visualize(self):
+    def visualize(self):
         self.surface.fill(BLUE)
         last_click_time = time.monotonic()
 
