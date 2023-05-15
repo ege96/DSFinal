@@ -8,16 +8,16 @@ from src import *
 # Colors
 from src.COLORS import BLUE, BROWN, BLACK
 
-pygame.init()
-pygame.font.init()
-
-disp = pygame.display.Info()
-SIZE = (disp.current_w, disp.current_h)
-CENT_X = SIZE[0] // 2
-CENT_Y = SIZE[1] // 2
-
 
 def main():
+    pygame.init()
+    pygame.font.init()
+
+    disp = pygame.display.Info()
+    SIZE = (disp.current_w, disp.current_h)
+    CENT_X = SIZE[0] // 2
+    CENT_Y = SIZE[1] // 2
+
     run = True
     win = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Data Structure Visualizer")

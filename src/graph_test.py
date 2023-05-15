@@ -18,30 +18,9 @@ class GraphNode(VisualNode):
     def __hash__(self):
         return hash((self.x, self.y))
 
-
-@dataclass(order=True)
-class GraphEdge:
-    node1: GraphNode
-    node2: GraphNode
-    weight: int = 0
-
-    def __eq__(self, other):
-        if isinstance(other, GraphEdge):
-            return (self.node1 == other.node1 and self.node2 == other.node2) or (
-                    self.node1 == other.node2 and self.node2 == other.node1)
-        return False
-
-    def __hash__(self):
-        return hash((self.node1, self.node2))
-
-    def draw(self, surface, color=BLACK, width=2):
-        pygame.draw.line(surface, color, (self.node1.x, self.node1.y),
-                         (self.node2.x, self.node2.y), width)
-
-
 class GraphTest:
     def __init__(self, surface, font):
-        self.nodes: dict[GraphNode, list[GraphEdge]] = {}
+        self.nodes: dict[GraphNode, list[list[GraphNode, int]]] = {}
         self.surface: pygame.Surface = surface
         self.font: pygame.font.Font = font
         self.idx = 0
@@ -58,23 +37,27 @@ class GraphTest:
         if node1 not in self.nodes or node2 not in self.nodes:
             raise ValueError("Node does not exist")
 
-        e1 = GraphEdge(node1, node2, weight)
-
-        if e1 in self.nodes[node1]:
+        if node1 in self.nodes[node2]:
             return
 
-        self.nodes[node1].append(e1)
+        if node2 in self.nodes[node1]:
+            return
+
+        self.nodes[node1].append(node2)
+        self.nodes[node2].append(node1)
+
 
     def remove_edge(self, node1: GraphNode, node2: GraphNode):
         if node1 not in self.nodes or node2 not in self.nodes:
             raise ValueError("Node does not exist")
 
-        e1 = GraphEdge(node1, node2)
-
-        if e1 not in self.nodes[node1]:
+        # only need to check one node, as the graph is undirected
+        if node2 not in self.nodes[node1]:
             return
 
-        self.nodes[node1].remove(e1)
+        self.nodes[node1].remove(node2)
+        self.nodes[node2].remove(node1)
+
 
     def remove_node(self, node: GraphNode):
         if node not in self.nodes:
@@ -115,7 +98,7 @@ class GraphTest:
         for node in self.nodes:
             node_list.append(node)
             for edge in self.nodes[node]:
-                edge.draw(self.surface)
+                pygame.draw.line(self.surface, BLACK, (node.x, node.y), (edge.x, edge.y), 2)
 
         for node in node_list:
             node.shape.draw(self.surface)
@@ -144,8 +127,9 @@ class GraphTest:
 
 
 
-    def dijkstra(self):
+    def dijkstra_vis(self, start_node: GraphNode, end_node: GraphNode):
         pass
+
 
     def handle_window_input(self, current_value):
         for event in pygame.event.get():
@@ -215,3 +199,10 @@ class GraphTest:
 
         self.draw_nodes_edges()
         pygame.display.update()
+
+
+
+
+
+
+
