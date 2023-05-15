@@ -2,44 +2,17 @@ from typing import Union
 import pygame
 import random
 
-from .node import Node
+from .node import VisualNode
 
 from .COLORS import BLUE, BROWN, BLACK
 
 from .shapes import Shape, Rectangle, Circle
 
 
-class LLNode(Node):
+class LLNode(VisualNode):
     def __init__(self, data=None, shape: Rectangle | Circle = None):
-        super().__init__(data)
+        super().__init__(data, shape)
         self.next = None
-        self.shape = shape
-
-    def draw(self, surface):
-        self.shape.draw(surface)
-        
-    def draw_text(self, surface, text, font, color=BLACK):
-        self.shape.draw_text(surface, text, font, color)
-        
-    def draw_outline(self, surface, color=BLACK):
-        self.shape.draw_outline(surface, color)
-        
-    def update_shape(self):
-        self.shape.update_rect()
-        
-    def handle_event(self, event):
-        return self.shape.handle_event(event)
-    
-    def resize(self, width, height):
-        self.shape.set_width(width)
-        self.shape.set_height(height)
-        self.update_shape()
-        
-    def move(self, x, y):
-        self.shape.set_x(x)
-        self.shape.set_y(y)
-        self.update_shape()   
-        
          
 
 class LList:
