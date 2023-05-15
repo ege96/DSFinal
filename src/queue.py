@@ -38,39 +38,9 @@ class Queue(LList):
         """
         return self.remove_at(1)
 
-    def front(self):
-        """Returns the element at the front of the queue without removing it.
-
-        Returns:
-            Union[bool, any]: False if the queue is empty, otherwise the value at the front of the queue.
-
-        """
-        return self.peek()
-
     def setup(self):
-        start_x, start_y = self.button_pos
-
-        self.add_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
-        self.add_btn.draw_text(self.surface, "Enqueue", self.font, BLACK)
-
-        start_x += self.button_width + self.button_spacing
-
-        self.insert_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
-        self.insert_btn.draw_text(self.surface, "Dequeue", self.font, BLACK)
-
-        start_x += self.button_width + self.button_spacing
-
-        self.exit_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
-        self.exit_btn.draw_text(self.surface, "Exit", self.font, BLACK)
-
-        self.btns = {"enqueue": self.add_btn, "dequeue": self.insert_btn, "exit": self.exit_btn}
-
-    def visualize(self):
-        self.setup()
-        while True:
-            for event in pygame.event.get():
-                if self._visualize(event) == "exit":
-                    return
+        btn_names = ["enqueue", "dequeue", "exit"]
+        self.add_buttons(btn_names)
 
     def _buttonMenu(self, event):
         for btn in self.btns:

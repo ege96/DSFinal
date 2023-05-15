@@ -3,6 +3,7 @@ import pygame
 import random
 
 from .node import VisualNode
+from .visualizer import BaseVisualizer
 
 from .COLORS import BLUE, BROWN, BLACK
 
@@ -15,8 +16,10 @@ class LLNode(VisualNode):
         self.next = None
 
 
-class LList:
+class LList(BaseVisualizer):
     def __init__(self, surface, font, nodeType=LLNode):
+        super().__init__(surface, font, nodeType)
+
         self.head = None
         self.tail = None
         self.nodeType = nodeType
@@ -208,16 +211,8 @@ class LList:
         return "->".join(output)
 
     def setup(self):
-        self.add_btn = Rectangle((10, 10), BLACK, 110, 40)
-        self.add_btn.draw_text(self.surface, "Add", self.font, BLACK)
-
-        self.insert_btn = Rectangle((125, 10), BLACK, 130, 40)
-        self.insert_btn.draw_text(self.surface, "Insert", self.font, BLACK)
-
-        self.exit_btn = Rectangle((260, 10), BLACK, 70, 40)
-        self.exit_btn.draw_text(self.surface, "Exit", self.font, BLACK)
-
-        self.btns = {"add": self.add_btn, "insert": self.insert_btn, "exit": self.exit_btn}
+        btn_names = ["add", "preadd", "insert", "search", "exit"]
+        self.add_buttons(btn_names)
 
     def _buttonMenu(self, event):
         for btn in self.btns:
@@ -229,17 +224,14 @@ class LList:
                 match btn:
                     case "add":
                         self.add(self.total_nodes + 1)
+                    case "preadd":
+                        self.preadd(self.total_nodes + 1)
                     case "insert":
                         self.insert_node(self.total_nodes + 1, random.randint(1, self.node_count + 1))
+                    case "search":
+                        pass
                     case "exit":
                         return "exit"
-
-    def visualize(self):
-        self.setup()
-        while True:
-            for event in pygame.event.get():
-                if self._visualize(event) == "exit":
-                    return
 
     def _visualize(self, event):
         self.surface.fill(BLUE)
@@ -250,21 +242,40 @@ class LList:
         curr = self.head
 
         x = 100
-        y = 250
+        y = 200
 
         prevNode = None
         pos = 1
 
         while curr is not None:
+            changed_level = False
+
+            if x >= self.surface.get_width() - 30:
+                changed_level = True
+                # draw line from prevNode to right screen
+                pygame.draw.line(self.surface, BLACK, (x-50, y), (x+30, y), 2)
+
+                # reset x and y
+                x = 100
+                y += 100
+
+                # draw line from left screen to curr
+                pygame.draw.line(self.surface, BLACK, (0, y), (x, y), 2)
+
             curr.shape = Circle((x, y), BROWN, 30)
             curr.move(x, y)
+
+            # update position
+            x += 80
+            pos += 1
+
             curr.draw(self.surface)
             curr.draw_text(self.surface, str(curr.value), self.font, BLUE)
             curr.draw_outline(self.surface, BLACK)
 
             if curr.shape.handle_event(event):
                 if event.button == 1:
-                    self.remove_at(pos)
+                    self.remove_at(pos-1)
                     if self.node_count == 0:
                         self.total_nodes = 0
                 elif event.button == 3:
@@ -283,11 +294,13 @@ class LList:
                 x2 = n2.shape.pos[0] - n2.shape.radius
                 y2 = n2.shape.pos[1]
 
-                pygame.draw.line(self.surface, BLACK, (x1, y1), (x2, y2), 2)
+                if changed_level is False:
+                    pygame.draw.line(self.surface, BLACK, (x1, y1), (x2, y2), 2)
+
+
+
 
             prevNode = curr
             curr = curr.next
-            x += 80
-            pos += 1
 
         pygame.display.update()
