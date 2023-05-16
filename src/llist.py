@@ -228,7 +228,6 @@ class LList(BaseVisualizer):
             n
             node = node.next
 
-
     def _buttonMenu(self, event):
         for btn in self.btns:
             btn_obj = self.btns[btn]
