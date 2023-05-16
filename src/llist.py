@@ -241,32 +241,35 @@ class LList(BaseVisualizer):
 
         curr = self.head
 
-        x = 100
-        y = 200
+        x = self.surface.get_width() // 10
+        y = self.surface.get_height() // 5
 
         prevNode = None
         pos = 1
 
+        radius: int = 30
+        x_inc = y_inc = int(radius * 2.5)
+
         while curr is not None:
             changed_level = False
 
-            if x >= self.surface.get_width() - 30:
+            if x >= self.surface.get_width() - radius:
                 changed_level = True
                 # draw line from prevNode to right screen
-                pygame.draw.line(self.surface, BLACK, (x-50, y), (x+30, y), 2)
+                pygame.draw.line(self.surface, BLACK, (x-(x_inc-radius), y), (self.surface.get_width(), y), 2)
 
                 # reset x and y
-                x = 100
-                y += 100
+                x = self.surface.get_width() // 10
+                y += y_inc
 
                 # draw line from left screen to curr
-                pygame.draw.line(self.surface, BLACK, (0, y), (x, y), 2)
+                pygame.draw.line(self.surface, BLACK, (0, y), (x-radius, y), 2)
 
-            curr.shape = Circle((x, y), BROWN, 30)
+            curr.shape = Circle((x, y), BROWN, radius)
             curr.move(x, y)
 
             # update position
-            x += 80
+            x += x_inc
             pos += 1
 
             curr.draw(self.surface)
@@ -296,9 +299,6 @@ class LList(BaseVisualizer):
 
                 if changed_level is False:
                     pygame.draw.line(self.surface, BLACK, (x1, y1), (x2, y2), 2)
-
-
-
 
             prevNode = curr
             curr = curr.next
