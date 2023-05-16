@@ -5,7 +5,7 @@ import random
 from .node import VisualNode
 from .visualizer import BaseVisualizer
 
-from .COLORS import BLUE, BROWN, BLACK
+from .COLORS import BLUE, BROWN, BLACK, RED, GREEN
 
 from .shapes import Shape, Rectangle, Circle
 
@@ -214,6 +214,21 @@ class LList(BaseVisualizer):
         btn_names = ["add", "preadd", "insert", "search", "exit"]
         self.add_buttons(btn_names)
 
+    def _search_vis(self, search_val: int):
+        found: bool = False
+        node = self.head
+        while node:
+            node.shape.change_color(RED)
+
+            if node.value == search_val:
+                node.shape.change_color(GREEN)
+                found = True
+                break
+
+            node.sha
+            node = node.next
+
+
     def _buttonMenu(self, event):
         for btn in self.btns:
             btn_obj = self.btns[btn]
@@ -229,7 +244,8 @@ class LList(BaseVisualizer):
                     case "insert":
                         self.insert_node(self.total_nodes + 1, random.randint(1, self.node_count + 1))
                     case "search":
-                        pass
+
+                        self._search_vis(random.randint(1, self.node_count + 1))
                     case "exit":
                         return "exit"
 
