@@ -52,16 +52,15 @@ class GraphTest(BaseVisualizer):
             raise ValueError("Node does not exist")
 
         # only need to check one node, as the graph is undirected
-        if node2 not in self.nodes[node1]:
-            return
-
         for nodes in self.nodes[node1]:
             if nodes[0] == node2:
+                print("removing edge")
                 self.nodes[node1].remove(nodes)
                 break
 
         for nodes in self.nodes[node2]:
             if nodes[0] == node1:
+                print("removing edge")
                 self.nodes[node2].remove(nodes)
                 break
 
@@ -70,6 +69,7 @@ class GraphTest(BaseVisualizer):
             raise ValueError("Node does not exist")
 
         for n in self.nodes:
+            print("removing edges")
             self.remove_edge(n, node)
 
         del self.nodes[node]
