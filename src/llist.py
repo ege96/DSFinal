@@ -228,8 +228,6 @@ class LList(BaseVisualizer):
                         self.preadd(self.total_nodes + 1)
                     case "insert":
                         self.insert_node(self.total_nodes + 1, random.randint(1, self.node_count + 1))
-                    case "search":
-                        self._search_vis(random.randint(1, self.node_count + 1))
                     case "exit":
                         return "exit"
 
