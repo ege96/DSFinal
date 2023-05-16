@@ -51,7 +51,6 @@ class GraphTest(BaseVisualizer):
         if node1 not in self.nodes or node2 not in self.nodes:
             raise ValueError("Node does not exist")
 
-        # only need to check one node, as the graph is undirected
         for nodes in self.nodes[node1]:
             if nodes[0] == node2:
                 print("removing edge")
