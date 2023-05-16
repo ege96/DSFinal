@@ -10,11 +10,14 @@ from src.COLORS import BLUE, BROWN, BLACK
 
 
 def main():
+    # initialize pygame
     pygame.init()
     pygame.font.init()
 
     disp = pygame.display.Info()
     SIZE = (disp.current_w, disp.current_h)
+
+    # center of screem
     CENT_X = SIZE[0] // 2
     CENT_Y = SIZE[1] // 2
 
@@ -22,6 +25,7 @@ def main():
     win = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Data Structure Visualizer")
 
+    # title
     font = pygame.font.SysFont("opensans", 150)
     text = font.render('Data Structure Visualizer!', True, BROWN)
     textRect = text.get_rect()
@@ -32,6 +36,7 @@ def main():
 
     BUTTON_FILES = os.listdir("Images")
 
+    # create buttons
     for idx, file_name in enumerate(BUTTON_FILES):
         if idx > (len(BUTTON_FILES) - 1) // 2:
             x_coord = CENT_X - MENU_OFFSET
@@ -63,10 +68,13 @@ def main():
             print("EXIT")
             return
 
+        # font to use for visualization
+        vis_font = pygame.font.SysFont("Calibri", 25, True, False)
+
         for ds in ds_buttons:
+            # if button is clicked
             if ds_buttons[ds].draw(win):
                 # call to visualization
-                vis_font = pygame.font.SysFont("Calibri", 25, True, False)
                 print(ds)
                 match ds:
                     case "linked-list":
@@ -77,6 +85,8 @@ def main():
                         vis = Stack(win, vis_font)
                     case "queue":
                         vis = Queue(win, vis_font)
+                    case _:
+                        raise RuntimeError("Invalid Data Structure Selected")
 
                 vis.visualize()
 

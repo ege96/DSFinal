@@ -1,26 +1,27 @@
 import pygame
 
-from typing import Tuple
+from abc import ABC, abstractmethod
 
 
-class Shape:
+class Shape(ABC):
+    """Abstract class for shapes"""
     def __init__(self, pos, color):
-        self.pos = pos
-        self.color = color
+        self.pos: tuple[int, int] = pos
+        self.color: tuple[int, int, int] = color
         self.rect = None
-        self.width = None
-        self.height = None
+        self.width: int = -1
+        self.height: int = -1
 
-    def get_x(self):
+    def get_x(self) -> int:
         return self.pos[0]
 
-    def get_y(self):
+    def get_y(self) -> int:
         return self.pos[1]
 
-    def get_width(self):
+    def get_width(self) -> int:
         return self.width
 
-    def get_height(self):
+    def get_height(self) -> int:
         return self.height
 
     def set_x(self, x):
@@ -50,8 +51,7 @@ class Shape:
 
 
 class Rectangle(Shape):
-
-    def __init__(self, pos: Tuple[int, int], color: Tuple[int, int, int], width: int,
+    def __init__(self, pos: tuple[int, int], color: tuple[int, int, int], width: int,
                  height: int):
         super().__init__(pos, color)
         self.width = width
@@ -75,12 +75,12 @@ class Rectangle(Shape):
         return self.rect.collidepoint(mouse_pos)
 
     def handle_event(self, event):
+        """Checks if the rectangle was clicked"""
         if event.type == pygame.MOUSEBUTTONDOWN:
             return self.clicked(event.pos)
 
 
 class Circle(Shape):
-
     def __init__(self, pos, color, radius):
         super().__init__(pos, color)
         self.radius = radius
@@ -105,11 +105,20 @@ class Circle(Shape):
                                 self.pos[1] - self.radius, self.radius * 2,
                                 self.radius * 2)
 
-    def clicked(self, mouse_pos):
+    def clicked(self, mouse_pos) -> bool:
+        """Checks if the mouse is within the circle
+
+        Args:
+            mouse_pos (tuple[int, int]): position of the mouse
+
+        Returns:
+            bool: True if mouse is within circle, False otherwise
+        """
         # euclidian distance between center is less than radius
         return (self.pos[0] - mouse_pos[0]) ** 2 + (
                 self.pos[1] - mouse_pos[1]) ** 2 <= self.radius ** 2
 
-    def handle_event(self, event):
+    def handle_event(self, event) -> bool:
+        """Checks if a mouse click is within the circle"""
         if event.type == pygame.MOUSEBUTTONDOWN:
             return self.clicked(event.pos)
