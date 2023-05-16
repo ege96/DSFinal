@@ -2,6 +2,7 @@ import pygame
 from dataclasses import dataclass
 
 from .node import VisualNode
+from .visualizer import BaseVisualizer
 
 from .COLORS import *
 
@@ -18,11 +19,11 @@ class GraphNode(VisualNode):
     def __hash__(self):
         return hash((self.x, self.y))
 
-class GraphTest:
+
+class GraphTest(BaseVisualizer):
     def __init__(self, surface, font):
+        super().__init__(surface, font)
         self.nodes: dict[GraphNode, list[list[GraphNode, int]]] = {}
-        self.surface: pygame.Surface = surface
-        self.font: pygame.font.Font = font
         self.idx = 0
         self.prev_node = None
 
@@ -43,9 +44,8 @@ class GraphTest:
         if node2 in self.nodes[node1]:
             return
 
-        self.nodes[node1].append(node2)
-        self.nodes[node2].append(node1)
-
+        self.nodes[node1].append([node2, weight])
+        self.nodes[node2].append([node1, weight])
 
     def remove_edge(self, node1: GraphNode, node2: GraphNode):
         if node1 not in self.nodes or node2 not in self.nodes:
@@ -55,9 +55,15 @@ class GraphTest:
         if node2 not in self.nodes[node1]:
             return
 
-        self.nodes[node1].remove(node2)
-        self.nodes[node2].remove(node1)
+        for nodes in self.nodes[node1]:
+            if nodes[0] == node2:
+                self.nodes[node1].remove(nodes)
+                break
 
+        for nodes in self.nodes[node2]:
+            if nodes[0] == node1:
+                self.nodes[node2].remove(nodes)
+                break
 
     def remove_node(self, node: GraphNode):
         if node not in self.nodes:
@@ -69,13 +75,8 @@ class GraphTest:
         del self.nodes[node]
 
     def setup(self):
-        self.djikstra_btn = Rectangle((10, 10), BLACK, 150, 40)
-        self.djikstra_btn.draw_text(self.surface, "Dijkstra", self.font, BLACK)
-
-        self.exit_btn = Rectangle((170, 10), BLACK, 70, 40)
-        self.exit_btn.draw_text(self.surface, "Exit", self.font, BLACK)
-
-        self.btns = {"dijkstra": self.djikstra_btn, "exit": self.exit_btn}
+        btn_names = ["dijkstra", "exit"]
+        self.add_buttons(["dijkstra", "exit"])
 
     def _buttonMenu(self, event):
         for btn in self.btns:
@@ -86,7 +87,6 @@ class GraphTest:
             if btn_obj.handle_event(event):
                 match btn:
                     case "dijkstra":
-                        self.dijkstra()
                         return "dijkstra"
                     case "exit":
                         return "exit"
@@ -98,6 +98,7 @@ class GraphTest:
         for node in self.nodes:
             node_list.append(node)
             for edge in self.nodes[node]:
+                edge = edge[0]
                 pygame.draw.line(self.surface, BLACK, (node.x, node.y), (edge.x, edge.y), 2)
 
         for node in node_list:
@@ -112,24 +113,22 @@ class GraphTest:
         rect2 = Rectangle((170, 10), BLACK, 150, 40)
         rect3 = Rectangle((330, 10), BLACK, 70, 40)
 
+        buttons = {"start": rect1, "end": rect2, "done": rect3}
+
         while True:
             for event in pygame.event.get():
                 pass
+
             self.surface.fill(BLUE)
-            rect1.draw(self.surface, width=2)
-            rect2.draw(self.surface, width=2)
-            rect3.draw(self.surface, width=2)
-            rect1.draw_text(self.surface, "Start Node", self.font, BLACK)
-            rect2.draw_text(self.surface, "End Node", self.font, BLACK)
-            rect3.draw_text(self.surface, "Done", self.font, BLACK)
+            for btn in buttons:
+                buttons[btn].draw(self.surface, width=2)
+                buttons[btn].draw_text(self.surface, btn.capitalize(), self.font, BLACK)
+                # check if button is clicked
 
             pygame.display.update()
 
-
-
     def dijkstra_vis(self, start_node: GraphNode, end_node: GraphNode):
         pass
-
 
     def handle_window_input(self, current_value):
         for event in pygame.event.get():

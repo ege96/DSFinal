@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 
 class BaseVisualizer(ABC):
-	def __init__(self, surface, font, node_type,
+	def __init__(self, surface, font, node_type=None,
 				 button_pos=(10, 10),
 				 button_height=40,
 				 button_width=150,

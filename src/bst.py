@@ -1,19 +1,22 @@
-from typing import Union
+from typing import Union, Any
 
-from .node import Node
+from .node import VisualNode
+from .visualizer import BaseVisualizer
+
+from .shapes import Rectangle, Circle
 
 
-class BSTNode(Node):
-    def __init__(self, data=None):
-        super().__init__(data)
+class BSTNode(VisualNode):
+    def __init__(self, data=None, shape: Rectangle | Circle = None):
+        super().__init__(data, shape)
         self.left = None
         self.right = None
         self.level = None
 
 
-
-class BSTree:
-    def __init__(self):
+class BSTree(BaseVisualizer):
+    def __init__(self, surface, font, node_type):
+        super().__init__(surface, font, node_type)
         self.root = None
 
     def add(self, val):
@@ -65,7 +68,7 @@ class BSTree:
         self.root = self._remove(self.root, val)
         return val
         
-    def _remove(self, node: BSTNode, val) -> BSTNode:
+    def _remove(self, node: BSTNode, val) -> BSTNode | None | Any:
         if node is None:
             return None
 
@@ -94,9 +97,7 @@ class BSTree:
                 node.left = self._remove(node.left, pred.value)
 
         return node
-                
-                
-        
+
     def _predecessor(self, node: BSTNode) -> BSTNode:
         """Returns the predecessor of node, or None if node has no predecessor"""
         

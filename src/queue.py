@@ -10,7 +10,7 @@ from .shapes import Rectangle
 class Queue(LList):
     def __init__(self, surface, font, nodeType=LLNode):
         super().__init__(surface, font, nodeType)
-        self.rect_width = 120
+        self.rect_width = 200
         self.rect_height = 40
         self.rect_spacing = 5
         surface_x, surface_y = surface.get_size()
