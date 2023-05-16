@@ -15,7 +15,7 @@ class BSTNode(VisualNode):
 
 
 class BSTree(BaseVisualizer):
-    def __init__(self, surface, font, node_type):
+    def __init__(self, surface, font, node_type=BSTNode):
         super().__init__(surface, font, node_type)
         self.root = None
 
@@ -163,8 +163,28 @@ class BSTree(BaseVisualizer):
                 counter = 0
 
         return output.strip()
-    
-    
+
+    def setup(self):
+        button_names = ["add", "search", "exit"]
+        self.add_buttons(button_names)
+
+    def _buttonMenu(self, event):
+        for btn in self.btns:
+            btn_obj = self.btns[btn]
+            btn_obj.draw(self.surface)
+            btn_obj.draw_text(self.surface, btn.capitalize(), self.font)
+
+            if btn_obj.handle_event(event):
+                if btn == "add":
+                    self.add(5)
+                elif btn == "search":
+                    pass
+                elif btn == "exit":
+                    return exit
+
+    def draw(self, event):
+        pass
+
 
 
 if __name__ == "__main__":

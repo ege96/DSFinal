@@ -80,7 +80,7 @@ class LList(BaseVisualizer):
             val (any): value to add
 
         """
-        node = self.nodeType(val, **kwargs)
+        node = self.nodeType(val)
         node.next = self.head
         self.head = node
         if not self.tail:
@@ -211,22 +211,8 @@ class LList(BaseVisualizer):
         return "->".join(output)
 
     def setup(self):
-        btn_names = ["add", "preadd", "insert", "search", "exit"]
+        btn_names = ["add", "preadd", "insert", "exit"]
         self.add_buttons(btn_names)
-
-    def _search_vis(self, search_val: int):
-        found: bool = False
-        node = self.head
-        while node:
-            node.shape.change_color(RED)
-
-            if node.value == search_val:
-                node.shape.change_color(GREEN)
-                found = True
-                break
-
-            n
-            node = node.next
 
     def _buttonMenu(self, event):
         for btn in self.btns:
@@ -255,7 +241,7 @@ class LList(BaseVisualizer):
 
         curr = self.head
 
-        x = self.surface.get_width() // 10
+        x = self.surface.get_width() // 8
         y = self.surface.get_height() // 5
 
         prevNode = None
@@ -273,7 +259,7 @@ class LList(BaseVisualizer):
                 pygame.draw.line(self.surface, BLACK, (x-(x_inc-radius), y), (self.surface.get_width(), y), 2)
 
                 # reset x and y
-                x = self.surface.get_width() // 10
+                x = self.surface.get_width() // 8
                 y += y_inc
 
                 # draw line from left screen to curr
