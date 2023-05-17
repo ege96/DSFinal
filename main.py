@@ -1,12 +1,9 @@
-import pygame
 import os
 
-from button import Button
-from src.shapes import Rectangle, Circle
 from src import *
-
 # Colors
-from src.COLORS import BLUE, BROWN, BLACK
+from src.COLORS import BLUE, BROWN
+from src.button import Button
 
 
 def main():
