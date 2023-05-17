@@ -11,8 +11,18 @@ class Node:
 
 @dataclass(order=True)
 class VisualNode(Node):
+    """A generic node that acts as wrapper for shapes
+
+    Args:
+        value (any): The value of the node
+        shape (Rectangle | Circle): The shape of the node
+
+    Attributes:
+        value (any): The value of the node
+        shape (Rectangle | Circle): The shape of the node
+    """
+
     def __init__(self, value, shape: Rectangle | Circle):
-        """A generic node that acts as wrapper for shapes"""
         super().__init__(value)
         self.shape: Rectangle | Circle = shape
 
