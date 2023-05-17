@@ -11,12 +11,26 @@ from .shapes import Rectangle, Circle
 
 @dataclass(order=True)
 class GraphNode(VisualNode):
+    """GraphNode class, inherits from VisualNode
+
+    Args:
+        value (any): value of the node
+        x (int): x coordinate of the node
+        y (int): y coordinate of the node
+        shape (Rectangle | Circle): shape of the node
+
+    Attributes:
+        x (int): x coordinate of the node
+        y (int): y coordinate of the node
+        shape (Rectangle | Circle): shape of the node
+    """
     def __init__(self, value, x: int, y: int, shape: Rectangle | Circle):
         super().__init__(value, shape)
         self.x: int = x
         self.y: int = y
 
     def __hash__(self):
+        """Hash function so that it can be used in dictionaries"""
         return hash((self.x, self.y))
 
 
