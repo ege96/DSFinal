@@ -18,6 +18,7 @@ def main():
     CENT_X = SIZE[0] // 2
     CENT_Y = SIZE[1] // 2
 
+    # set run flag and window size
     run = True
     win = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Data Structure Visualizer")
