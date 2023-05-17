@@ -20,7 +20,7 @@ class GraphNode(VisualNode):
         return hash((self.x, self.y))
 
 
-class GraphTest(BaseVisualizer):
+class Graph(BaseVisualizer):
     def __init__(self, surface, font):
         super().__init__(surface, font)
         self.nodes: dict[GraphNode, list[list[GraphNode, int]]] = {}
@@ -102,42 +102,6 @@ class GraphTest(BaseVisualizer):
             node.shape.draw(self.surface)
             node.shape.draw_text(self.surface, node.value, self.font, BLACK)
 
-    def open_input_menu(self):
-        # when user clicks dijkstra button
-        # ask from which node to start and end
-        # then call dijkstra function
-        rect1 = Rectangle((10, 10), BLACK, 150, 40)
-        rect2 = Rectangle((170, 10), BLACK, 150, 40)
-        rect3 = Rectangle((330, 10), BLACK, 70, 40)
-
-        buttons = {"start": rect1, "end": rect2, "done": rect3}
-
-        while True:
-            for event in pygame.event.get():
-                pass
-
-            self.surface.fill(BLUE)
-            for btn in buttons:
-                buttons[btn].draw(self.surface, width=2)
-                buttons[btn].draw_text(self.surface, btn.capitalize(), self.font, BLACK)
-                # check if button is clicked
-
-            pygame.display.update()
-
-    def dijkstra_vis(self, start_node: GraphNode, end_node: GraphNode):
-        pass
-
-    def handle_window_input(self, current_value):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    current_value = current_value[:-1]
-                elif event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
-                    return current_value
-                elif event.unicode.isdigit():
-                    current_value += event.unicode
-        return current_value
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -169,9 +133,6 @@ class GraphTest(BaseVisualizer):
         btn_res = self._buttonMenu(event)
         if btn_res == "exit":
             return "exit"
-        elif btn_res == "dijkstra":
-            self.open_input_menu()
-            return
 
         node, button_clicked = self.handle_event(event)
 

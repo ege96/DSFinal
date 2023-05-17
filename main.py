@@ -80,7 +80,7 @@ def main():
                     case "linked-list":
                         vis = LList(win, vis_font)
                     case "graph":
-                        vis = GraphTest(win, vis_font)
+                        vis = Graph(win, vis_font)
                     case "stack":
                         vis = Stack(win, vis_font)
                     case "queue":
