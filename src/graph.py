@@ -38,10 +38,10 @@ class Graph(BaseVisualizer):
         if node1 not in self.nodes or node2 not in self.nodes:
             return
 
-        if node1 in self.nodes[node2]:
+        if [node1, weight] in self.nodes[node2]:
             return
 
-        if node2 in self.nodes[node1]:
+        if [node2, weight] in self.nodes[node1]:
             return
 
         self.nodes[node1].append([node2, weight])
@@ -69,7 +69,7 @@ class Graph(BaseVisualizer):
 
         for n in self.nodes:
             print("removing edges")
-            self.remove_edge(n, node)
+            self.remove_edge(node, n)
 
         del self.nodes[node]
 
