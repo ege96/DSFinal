@@ -275,6 +275,7 @@ class LList(BaseVisualizer):
             curr.draw_outline(self.surface, BLACK)
 
             if curr.shape.handle_event(event):
+                # left click to remove, right click to insert
                 if event.button == 1:
                     self.remove_at(pos-1)
                     if self.node_count == 0:
@@ -282,6 +283,7 @@ class LList(BaseVisualizer):
                 elif event.button == 3:
                     self.insert_node(self.node_count + 1, pos)
 
+            # draw line to connect nodes
             if prevNode is not None:
                 # draw line
                 n1 = prevNode

@@ -74,8 +74,8 @@ class GraphTest(BaseVisualizer):
         del self.nodes[node]
 
     def setup(self):
-        btn_names = ["dijkstra", "exit"]
-        self.add_buttons(["dijkstra", "exit"])
+        btn_names = ["exit"]
+        self.add_buttons(btn_names)
 
     def _buttonMenu(self, event):
         for btn in self.btns:
@@ -85,8 +85,6 @@ class GraphTest(BaseVisualizer):
 
             if btn_obj.handle_event(event):
                 match btn:
-                    case "dijkstra":
-                        return "dijkstra"
                     case "exit":
                         return "exit"
 
