@@ -10,15 +10,21 @@ from .shapes import Rectangle
 class Stack(LList):
     def __init__(self, surface, font, nodeType=LLNode):
         super().__init__(surface, font, nodeType)
-        self.rect_width = 120
-        self.rect_height = 40
-        self.rect_spacing = 5
+        self.rect_width: int = 120
+        self.rect_height: int = 40
+        self.rect_spacing: int = 5
+
+        surface_x: int
+        surface_y: int
         surface_x, surface_y = surface.get_size()
-        self.stack_pos = (surface_x // 2 - self.rect_width // 2, surface_y - self.rect_height * 2)
-        self.button_pos = (10, 10)
-        self.button_height = 40
-        self.button_width = 150
-        self.button_spacing = 5
+
+        # place stack in the middle bottom of the screen
+        self.stack_pos: tuple[int, int] = (surface_x // 2 - self.rect_width // 2, surface_y - self.rect_height * 2)
+
+        self.button_pos: tuple[int, int] = (10, 10)
+        self.button_height: int = 40
+        self.button_width: int = 150
+        self.button_spacing: int = 5
 
     def push(self, val):
         """Adds an element to the top of the stack.
@@ -47,25 +53,12 @@ class Stack(LList):
         """
         if self.tail is None:
             return False
+
         return self.tail.value
 
     def setup(self):
-        start_x, start_y = self.button_pos
-
-        self.add_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
-        self.add_btn.draw_text(self.surface, "Push", self.font, BLACK)
-
-        start_x += self.button_width + self.button_spacing
-
-        self.insert_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
-        self.insert_btn.draw_text(self.surface, "Pop", self.font, BLACK)
-
-        start_x += self.button_width + self.button_spacing
-
-        self.exit_btn = Rectangle((start_x, start_y), BLACK, self.button_width, self.button_height)
-        self.exit_btn.draw_text(self.surface, "Exit", self.font, BLACK)
-
-        self.btns = {"push": self.add_btn, "pop": self.insert_btn, "exit": self.exit_btn}
+        btn_names = ["push", "pop", "exit"]
+        self.add_buttons(btn_names)
 
     def visualize(self):
         self.setup()
@@ -75,6 +68,7 @@ class Stack(LList):
                     return
 
     def _buttonMenu(self, event):
+        # draw buttons, handle events
         for btn in self.btns:
             btn_obj = self.btns[btn]
             btn_obj.draw(self.surface, width=2)

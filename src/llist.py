@@ -20,16 +20,16 @@ class LList(BaseVisualizer):
     def __init__(self, surface, font, nodeType=LLNode):
         super().__init__(surface, font, nodeType)
 
-        self.head = None
-        self.tail = None
+        self.head: nodeType = None
+        self.tail: nodeType = None
         self.nodeType = nodeType
-        self.node_count = 0
-        self.total_nodes = 0
-        self.surface = surface
-        self.font = font
+        self.node_count: int = 0
+        self.total_nodes: int = 0
+        self.surface: pygame.Surface = surface
+        self.font: pygame.font.Font = font
 
     def add(self, val):
-        """Adds to the end of the LList
+        """Adds val the end of the LList
 
         Args:
             val (any): value to add

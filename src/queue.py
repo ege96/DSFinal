@@ -10,15 +10,19 @@ from .shapes import Rectangle
 class Queue(LList):
     def __init__(self, surface, font, nodeType=LLNode):
         super().__init__(surface, font, nodeType)
-        self.rect_width = 120
-        self.rect_height = 40
-        self.rect_spacing = 5
+        self.rect_width: int = 120
+        self.rect_height: int = 40
+        self.rect_spacing: int = 5
+
+        surface_x: int
+        surface_y: int
         surface_x, surface_y = surface.get_size()
-        self.queue_pos = (surface_x // 2 - self.rect_width // 2, surface_y - self.rect_height * 2)
-        self.button_pos = (10, 10)
-        self.button_height = 40
-        self.button_width = 150
-        self.button_spacing = 5
+
+        self.queue_pos: tuple[int, int] = (surface_x // 2 - self.rect_width // 2, surface_y - self.rect_height * 2)
+        self.button_pos: tuple[int, int] = (10, 10)
+        self.button_height: int = 40
+        self.button_width: int = 150
+        self.button_spacing: int = 5
 
     def enqueue(self, val):
         """Adds an element to the end of the queue.
