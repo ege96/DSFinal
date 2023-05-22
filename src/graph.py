@@ -1,12 +1,11 @@
-import pygame
 from dataclasses import dataclass
 
-from .node import VisualNode
-from .visualizer import BaseVisualizer
+import pygame
 
 from .COLORS import *
-
+from .node import VisualNode
 from .shapes import Rectangle, Circle
+from .visualizer import BaseVisualizer
 
 
 @dataclass(order=True)
@@ -24,6 +23,7 @@ class GraphNode(VisualNode):
         y (int): y coordinate of the node
         shape (Rectangle | Circle): shape of the node
     """
+
     def __init__(self, value, x: int, y: int, shape: Rectangle | Circle):
         super().__init__(value, shape)
         self.x: int = x
@@ -45,10 +45,11 @@ class Graph(BaseVisualizer):
         nodes (dict[GraphNode, list[list[GraphNode, int]]]): dictionary of nodes and their edges with weights
 
     """
+
     def __init__(self, surface, font):
         super().__init__(surface, font)
         self.nodes: dict[GraphNode, list[list[GraphNode, int]]] = {}
-        self.idx = 0
+        self.idx: int = 0
         self.prev_node = None
 
     def add_node(self, node: GraphNode):
@@ -156,7 +157,7 @@ class Graph(BaseVisualizer):
         """Draw all nodes and edges on the surface"""
         node_list = []
 
-        # draw edges first
+        # draw edges first to avoid overlapping
         for node in self.nodes:
             node_list.append(node)
             for edge in self.nodes[node]:
@@ -232,10 +233,3 @@ class Graph(BaseVisualizer):
 
         self.draw_nodes_edges()
         pygame.display.update()
-
-
-
-
-
-
-
