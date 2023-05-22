@@ -1,22 +1,49 @@
-from typing import Union
-import pygame
 import random
+from typing import Union
 
+import pygame
+
+from .COLORS import BLUE, BROWN, BLACK
 from .node import VisualNode
+from .shapes import Rectangle, Circle
 from .visualizer import BaseVisualizer
-
-from .COLORS import BLUE, BROWN, BLACK, RED, GREEN
-
-from .shapes import Shape, Rectangle, Circle
 
 
 class LLNode(VisualNode):
+    """Node for a linked list.
+
+    Args:
+        data (any, optional): Data to store in the node. Defaults to None.
+        shape (Rectangle | Circle, optional): Shape to draw for the node. Defaults to None.
+
+    Attributes:
+        next (LLNode): Next node in the linked list.
+
+    """
+
     def __init__(self, data=None, shape: Rectangle | Circle = None):
         super().__init__(data, shape)
         self.next = None
 
 
 class LList(BaseVisualizer):
+    """Linked list visualizer.
+
+    Args:
+        surface (pygame.Surface): Surface to draw on.
+        font (pygame.font.Font): Font to use for text.
+        nodeType (LLNode, optional): Node type to use for the linked list. Defaults to LLNode.
+
+    Attributes:
+        head (LLNode): Head of the linked list.
+        tail (LLNode): Tail of the linked list.
+        nodeType (LLNode): Node type to use for the linked list.
+        node_count (int): Number of nodes in the linked list.
+        total_nodes (int): Total number of nodes created.
+
+
+    """
+
     def __init__(self, surface, font, nodeType=LLNode):
         super().__init__(surface, font, nodeType)
 
@@ -101,7 +128,6 @@ class LList(BaseVisualizer):
 
         self.node_count -= 1
 
-
         if self.head == self.tail:
             temp_value = self.head.value
             self.head = None
@@ -158,6 +184,7 @@ class LList(BaseVisualizer):
             
         Returns:
             Union[bool, any]: False if LList is empty or pos is invalid, otherwise the value removed"""
+
         if self.head is None:
             return False
 
@@ -167,6 +194,7 @@ class LList(BaseVisualizer):
         self.node_count -= 1
 
         if pos == 1:
+            # remove head
             temp_value = self.head.value
             self.head = self.head.next
             return temp_value
@@ -174,12 +202,14 @@ class LList(BaseVisualizer):
         current_node = self.head
 
         for i in range(1, pos - 1):
+            # iterate to the node before the one to remove
             current_node = current_node.next
 
         temp_value = current_node.next.value
         current_node.next = current_node.next.next
 
         if current_node.next is None:
+            # set tail to current node if the tail is removed
             self.tail = current_node
 
         return temp_value
@@ -215,6 +245,7 @@ class LList(BaseVisualizer):
         self.add_buttons(btn_names)
 
     def _buttonMenu(self, event):
+        """Draws the button menu and handles events"""
         for btn in self.btns:
             btn_obj = self.btns[btn]
             btn_obj.draw(self.surface, width=2)
@@ -239,6 +270,7 @@ class LList(BaseVisualizer):
 
         curr = self.head
 
+        # initial x and y
         x = self.surface.get_width() // 8
         y = self.surface.get_height() // 5
 
@@ -254,14 +286,14 @@ class LList(BaseVisualizer):
             if x >= self.surface.get_width() - radius:
                 changed_level = True
                 # draw line from prevNode to right screen
-                pygame.draw.line(self.surface, BLACK, (x-(x_inc-radius), y), (self.surface.get_width(), y), 2)
+                pygame.draw.line(self.surface, BLACK, (x - (x_inc - radius), y), (self.surface.get_width(), y), 2)
 
                 # reset x and y
                 x = self.surface.get_width() // 8
                 y += y_inc
 
                 # draw line from left screen to curr
-                pygame.draw.line(self.surface, BLACK, (0, y), (x-radius, y), 2)
+                pygame.draw.line(self.surface, BLACK, (0, y), (x - radius, y), 2)
 
             curr.shape = Circle((x, y), BROWN, radius)
             curr.move(x, y)
@@ -270,6 +302,7 @@ class LList(BaseVisualizer):
             x += x_inc
             pos += 1
 
+            # draw node and text
             curr.draw(self.surface)
             curr.draw_text(self.surface, str(curr.value), self.font, BLUE)
             curr.draw_outline(self.surface, BLACK)
@@ -277,7 +310,7 @@ class LList(BaseVisualizer):
             if curr.shape.handle_event(event):
                 # left click to remove, right click to insert
                 if event.button == 1:
-                    self.remove_at(pos-1)
+                    self.remove_at(pos - 1)
                     if self.node_count == 0:
                         self.total_nodes = 0
                 elif event.button == 3:

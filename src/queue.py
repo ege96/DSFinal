@@ -8,6 +8,15 @@ from .shapes import Rectangle
 
 
 class Queue(LList):
+    """Queue visualizer. Uses a linked list as the underlying data structure.
+
+    Args:
+        surface (pygame.Surface): Surface to draw on.
+        font (pygame.font.Font): Font to use for text.
+        nodeType (LLNode, optional): Node type to use for the linked list. Defaults to LLNode.
+
+
+    """
     def __init__(self, surface, font, nodeType=LLNode):
         super().__init__(surface, font, nodeType)
         self.rect_width: int = 120

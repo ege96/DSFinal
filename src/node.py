@@ -56,10 +56,6 @@ class VisualNode(Node):
         """
         self.shape.draw_outline(surface, color)
 
-    def update_shape(self):
-        """Forces the shape to update its shape"""
-        self.shape.update_rect()
-
     def handle_event(self, event):
         """Checks if a click was within the shape"""
         return self.shape.handle_event(event)

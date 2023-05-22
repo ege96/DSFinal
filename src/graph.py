@@ -35,6 +35,16 @@ class GraphNode(VisualNode):
 
 
 class Graph(BaseVisualizer):
+    """Graph class, inherits from BaseVisualizer
+
+    Args:
+        surface (pygame.Surface): surface to draw on
+        font (pygame.font.Font): font to use for text
+
+    Attributes:
+        nodes (dict[GraphNode, list[list[GraphNode, int]]]): dictionary of nodes and their edges with weights
+
+    """
     def __init__(self, surface, font):
         super().__init__(surface, font)
         self.nodes: dict[GraphNode, list[list[GraphNode, int]]] = {}
@@ -42,6 +52,15 @@ class Graph(BaseVisualizer):
         self.prev_node = None
 
     def add_node(self, node: GraphNode):
+        """Add a node to the graph
+
+        Args:
+            node (GraphNode): node to add
+
+        Raises:
+            ValueError: if node already exists
+
+        """
         if node in self.nodes:
             raise ValueError("Node already exists")
 
@@ -49,6 +68,16 @@ class Graph(BaseVisualizer):
         self.idx += 1
 
     def add_edge(self, node1: GraphNode, node2: GraphNode, weight: int = 0):
+        """Add an edge between two nodes
+
+        If the edge already exists, it is not added
+
+        Args:
+            node1 (GraphNode): first node
+            node2 (GraphNode): second node
+            weight (int, optional): weight of the edge, defaults to 0
+
+        """
         if node1 not in self.nodes or node2 not in self.nodes:
             return
 
@@ -62,6 +91,16 @@ class Graph(BaseVisualizer):
         self.nodes[node2].append([node1, weight])
 
     def remove_edge(self, node1: GraphNode, node2: GraphNode):
+        """Remove an edge between two nodes
+
+        Args:
+            node1 (GraphNode): first node
+            node2 (GraphNode): second node
+
+        Raises:
+            ValueError: if either node does not exist
+        """
+
         if node1 not in self.nodes or node2 not in self.nodes:
             raise ValueError("Node does not exist")
 
@@ -78,10 +117,21 @@ class Graph(BaseVisualizer):
                 break
 
     def remove_node(self, node: GraphNode):
+        """Remove a node from the graph, along with all its incident edges
+
+        Args:
+            node (GraphNode): node to remove
+
+        Raises:
+            ValueError: if node does not exist
+
+        """
+
         if node not in self.nodes:
             raise ValueError("Node does not exist")
 
         for n in self.nodes:
+            # remove all edges incident to node
             print("removing edges")
             self.remove_edge(node, n)
 
@@ -103,6 +153,7 @@ class Graph(BaseVisualizer):
                         return "exit"
 
     def draw_nodes_edges(self):
+        """Draw all nodes and edges on the surface"""
         node_list = []
 
         # draw edges first
@@ -117,6 +168,15 @@ class Graph(BaseVisualizer):
             node.shape.draw_text(self.surface, node.value, self.font, BLACK)
 
     def handle_event(self, event):
+        """Handle mouse events
+
+        Args:
+            event (pygame.event.Event): event to handle
+
+        Returns:
+            tuple[GraphNode, str]: node that was clicked and which mouse button was clicked
+
+        """
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for node in self.nodes:
@@ -152,9 +212,11 @@ class Graph(BaseVisualizer):
 
         if node is not None:
             if button_clicked == "left":
+                # remove node if left-clicked
                 self.remove_node(node)
 
             elif button_clicked == "right":
+                # add edge if two nodes are successively right-clicked
                 if self.prev_node is None:
                     self.prev_node = node
                 else:
