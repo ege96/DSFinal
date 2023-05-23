@@ -82,7 +82,6 @@ class Queue(LList):
         while curr is not None:
             rect = Rectangle((x, y), BROWN, self.rect_width, self.rect_height)
             curr.shape = rect
-            curr.update_shape()
             curr.draw(self.surface)
             curr.draw_text(self.surface, str(curr.value), self.font, BLACK)
 

@@ -70,7 +70,6 @@ class VisualNode(Node):
         """
         self.shape.set_width(width)
         self.shape.set_height(height)
-        self.shape.update_rect()
 
     def move(self, x: int, y: int) -> None:
         """Moves the shape of the node
@@ -82,4 +81,3 @@ class VisualNode(Node):
         """
         self.shape.set_x(x)
         self.shape.set_y(y)
-        self.shape.update_rect()

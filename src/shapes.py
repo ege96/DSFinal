@@ -53,12 +53,8 @@ class Shape(ABC):
 
         """
         self.color = color
-        self.update_rect()
 
     def draw(self, surface):
-        raise NotImplementedError("Subclass must implement abstract method")
-
-    def update_rect(self):
         raise NotImplementedError("Subclass must implement abstract method")
 
     def clicked(self, mouse_pos):
