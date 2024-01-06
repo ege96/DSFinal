@@ -32,7 +32,8 @@ def main():
     ds_buttons = {}
     MENU_OFFSET = 400
 
-    BUTTON_FILES = os.listdir("Images/StructureButtons")
+    BUTTON_FILEDIR = "images/structurebuttons"
+    BUTTON_FILES = os.listdir(BUTTON_FILEDIR)
 
     # create buttons
     for idx, file_name in enumerate(BUTTON_FILES):
@@ -44,13 +45,12 @@ def main():
 
         name = file_name.split("_")[-1].split(".")[0]
 
-        i_img = pygame.image.load(os.path.join("Images/StructureButtons",
-                                               file_name)).convert_alpha()
+        i_img = pygame.image.load(os.path.join(BUTTON_FILEDIR, file_name)).convert_alpha()
         i_button = Button(350, 210, i_img, 0.75)
         i_button.set_center(x_coord, 350 + (200 * idx))
         ds_buttons[name] = i_button
 
-    exit_img = pygame.image.load("Images/MenuButtons/button_exit.png").convert_alpha()
+    exit_img = pygame.image.load("images/menubuttons/button_exit.png").convert_alpha()
     exit_btn = Button(1, 1, exit_img, 0.75)
     exit_btn.set_center(CENT_X, 750)
 
